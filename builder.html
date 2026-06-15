@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Bracelet Builder | Senada</title>
+    <meta name="description"
+        content="Design a personalized Italian charm bracelet filled with memories, milestones, and moments that matter.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/builder.css">
+    <link rel="stylesheet" href="css/order.css">
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">Senada</a>
+        </div>
+        <div class="nav-center">
+            <a href="index.html">Home</a>
+            <a href="index.html#why-senada">Why Senada</a>
+            <a href="index.html#gallery">Inspiration</a>
+        </div>
+        <div class="nav-right">
+            <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme">
+                <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                </svg>
+                <svg id="sun-icon" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="4" />
+                    <path d="M12 2v2" />
+                    <path d="M12 20v2" />
+                    <path d="m4.93 4.93 1.41 1.41" />
+                    <path d="m17.66 17.66 1.41 1.41" />
+                    <path d="M2 12h2" />
+                    <path d="M20 12h2" />
+                    <path d="m6.34 17.66-1.41 1.41" />
+                    <path d="m19.07 4.93-1.41 1.41" />
+                </svg>
+            </button>
+            <button class="icon-btn" id="cart-btn" aria-label="Cart">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                    <path d="M3 6h18" />
+                    <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+            </button>
+            <button class="btn btn-primary active" onclick="document.getElementById('builder-section').scrollIntoView({behavior: 'smooth'})">Start Designing</button>
+        </div>
+    </nav>
+
+    <!-- Builder Section -->
+    <section id="builder-section" class="builder-section" style="margin-top: calc(var(--navbar-height) + 20px);">
+
+        <!-- Wrist Size Selection -->
+        <div class="wrist-size-selector">
+            <h2>Choose Your Wrist Size</h2>
+            <div class="size-options">
+                <button class="size-btn" data-size="14" data-label="XS">XS (14 cm)</button>
+                <button class="size-btn" data-size="15" data-label="S">S (15 cm)</button>
+                <button class="size-btn active" data-size="16" data-label="M">M (16 cm)</button>
+                <button class="size-btn" data-size="17" data-label="L">L (17 cm)</button>
+                <button class="size-btn" data-size="18" data-label="XL">XL (18 cm)</button>
+                <button class="size-btn custom-btn">Custom Size</button>
+            </div>
+            <p class="size-recommendation" id="size-recommendation">Based on your wrist size, we recommend <span
+                    id="rec-charms">18</span> charms for the best fit.</p>
+        </div>
+
+        <!-- Main Workspace -->
+        <div class="workspace-container" id="workspace">
+            <div class="workspace-header">
+                <div>
+                    <h2>Craft Your Bracelet</h2>
+                    <p id="workspace-feedback"
+                        style="font-style: italic; color: var(--accent-color); margin-top: 4px; font-weight: 500;">Your
+                        Story Begins</p>
+                </div>
+                <div class="mode-toggle">
+                    <button class="mode-btn active" id="mode-crafting">Crafting Mode</button>
+                    <button class="mode-btn" id="mode-3d-preview">3D Preview</button>
+                </div>
+            </div>
+
+            <!-- The Bracelet Canvas -->
+            <div class="bracelet-canvas" id="bracelet-canvas">
+                <div class="bracelet-track" id="bracelet-track">
+                    <!-- Slots will be generated here -->
+                </div>
+                <div class="preview-3d-container" id="preview-3d-container" style="display: none;">
+                    <div class="bracelet-3d-wrapper">
+                        <div class="bracelet-3d" id="bracelet-3d"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="workspace-footer">
+                <p class="charm-count"><span id="used-charms">0</span> / <span id="total-slots">18</span> Charms Used
+                </p>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-outline" id="shuffle-charms-btn" title="Acak Charm Ajaib">✨ Surprise Me</button>
+                    <button class="btn btn-outline" id="reset-charms-btn" title="Reset Gelang">🗑️ Reset Gelang</button>
+                    <button class="btn btn-outline" id="open-drawer-btn">Browse Charms</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Real-time Charm Story Summary Card -->
+        <div class="story-summary-card" id="story-summary-card" style="display: none;">
+            <div class="story-summary-header">
+                <h2>Kisah Gelangmu</h2>
+                <p>Setiap charm menyimpan kenangan berharga. Klik pada charm untuk menulis atau mengubah ceritamu.</p>
+            </div>
+            <div class="story-summary-grid" id="story-summary-grid">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+
+        <!-- Price & Checkout Summary Card -->
+        <div class="summary-card" id="summary-card">
+            <div class="summary-details">
+                <div class="summary-row">
+                    <span>Wrist Size</span>
+                    <span id="summary-size">M (16 cm)</span>
+                </div>
+                <div class="summary-row">
+                    <span>Charms Used</span>
+                    <span id="summary-count">0/18</span>
+                </div>
+                <div class="summary-row" style="margin-bottom: 6px;">
+                    <span id="summary-feedback"
+                        style="font-style: italic; font-size: 0.85rem; color: var(--accent-color);">Your Story Begins</span>
+                    <span id="summary-completion" style="font-size: 0.85rem; font-weight: 500;">0%</span>
+                </div>
+                <div class="progress-bar-container"
+                    style="background: var(--border-color); height: 4px; border-radius: 2px; margin-top: -4px; margin-bottom: 16px; overflow: hidden;">
+                    <div id="summary-progress-bar"
+                        style="background: var(--accent-color); height: 100%; width: 0%; transition: width 0.3s ease;">
+                    </div>
+                </div>
+                <div class="summary-total">
+                    <span>Estimated Price</span>
+                    <span id="summary-price">Rp149.000</span>
+                </div>
+            </div>
+            <div class="summary-actions">
+                <button class="btn btn-primary btn-full" id="direct-order-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        style="margin-right: 8px;">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                        <polyline points="10 9 9 9 8 9" />
+                    </svg>
+                    Pesan Gelang
+                </button>
+                <div style="display:flex; gap:10px; margin-top: 4px;">
+                    <button class="btn btn-outline btn-full" id="download-design-btn"
+                        style="padding: 10px 0; font-size: 0.9rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            style="margin-right: 4px;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" x2="12" y1="15" y2="3" />
+                        </svg>
+                        Download Design
+                    </button>
+                    <button class="btn btn-outline btn-full" id="view-story-btn"
+                        style="padding: 10px 0; font-size: 0.9rem;">
+                        View Story
+                    </button>
+                </div>
+                <!-- Keep a hidden button to prevent errors if other modules references it -->
+                <button id="review-order-btn" style="display:none;"></button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Drawer Overlay -->
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+
+    <!-- Charm Collection Drawer -->
+    <aside class="charm-drawer" id="charm-drawer">
+        <div class="drawer-header">
+            <h3>Charm Collection</h3>
+            <button class="close-btn" id="close-drawer-btn">&times;</button>
+        </div>
+        <!-- Drawer Search Bar -->
+        <div class="drawer-search-container">
+            <input type="text" id="charm-search-input" placeholder="Cari nama charm...">
+        </div>
+        <div class="drawer-categories">
+            <button class="cat-btn active" data-cat="all">All</button>
+            <button class="cat-btn" data-cat="polos">Polos</button>
+            <button class="cat-btn" data-cat="premium">Premium</button>
+            <button class="cat-btn" data-cat="alloy">Alloy</button>
+            <button class="cat-btn" data-cat="resin">Resin</button>
+            <button class="cat-btn" data-cat="enamel">Enamel</button>
+            <button class="cat-btn" data-cat="coat resin">Coat Resin</button>
+            <button class="cat-btn" data-cat="custom">Custom Photo</button>
+        </div>
+
+        <div class="custom-photo-upload" id="custom-photo-upload" style="display: none;">
+            <label for="photo-upload" class="upload-area">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="17 8 12 3 7 8" />
+                    <line x1="12" x2="12" y1="3" y2="15" />
+                </svg>
+                <span>Upload a photo</span>
+                <input type="file" id="photo-upload" accept="image/png, image/jpeg" style="display:none;">
+            </label>
+        </div>
+
+        <div class="charms-grid" id="charms-grid">
+            <!-- Charms will be injected here -->
+        </div>
+    </aside>
+
+    <!-- Order Summary Modal -->
+    <div class="modal-overlay" id="order-modal-overlay">
+        <div class="order-modal">
+            <div class="modal-header">
+                <h2>Review Your Order</h2>
+                <button class="close-btn" id="close-modal-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-preview" id="modal-preview" style="perspective: 1000px;">
+                    <div class="bracelet-3d-wrapper" style="transform: rotateX(-15deg) scale3d(0.6, 0.6, 0.6);">
+                        <div class="bracelet-3d" id="modal-bracelet-3d"></div>
+                    </div>
+                </div>
+                <div class="modal-details">
+                    <div class="modal-row"><strong>Size:</strong> <span id="modal-size"></span></div>
+                    <div class="modal-row"><strong>Charms (<span id="modal-charm-count"></span>):</strong></div>
+                    <ul class="modal-charm-list" id="modal-charm-list"></ul>
+
+                    <div class="modal-total">
+                        <span>Estimated Price</span>
+                        <span id="modal-total-price"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline btn-full" id="modal-download-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        style="margin-right: 8px;">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" x2="12" y1="15" y2="3" />
+                    </svg>
+                    Download Design
+                </button>
+                <div class="order-actions">
+                    <button class="btn btn-full btn-primary" id="modal-order-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            style="margin-right: 8px;">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="16" y1="13" x2="8" y2="13" />
+                            <line x1="16" y1="17" x2="8" y2="17" />
+                            <polyline points="10 9 9 9 8 9" />
+                        </svg>
+                        Pesan Gelang
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Story Modal (Instagram-style Stories player) -->
+    <div class="modal-overlay" id="story-modal-overlay">
+        <div class="story-slideshow-modal">
+            <!-- Progress segments indicators like IG stories -->
+            <div class="story-progress-bar" id="slideshow-progress-bar"></div>
+            
+            <button class="close-btn story-close-btn" id="close-story-btn">&times;</button>
+            
+            <!-- Left/Right tap zones for navigation -->
+            <div class="story-nav-zone left" id="story-nav-prev"></div>
+            <div class="story-nav-zone right" id="story-nav-next"></div>
+            
+            <div class="story-slideshow-content">
+                <!-- Large card containing the current active charm with watch link border -->
+                <div class="slideshow-charm-container">
+                    <div class="slideshow-link-wrapper" id="slideshow-link-wrapper">
+                        <!-- Charm SVG/Emoji rendered here -->
+                    </div>
+                </div>
+                
+                <div class="slideshow-text-container">
+                    <h3 class="slideshow-charm-name" id="slideshow-charm-name">Charm Name</h3>
+                    <p class="slideshow-charm-memory" id="slideshow-charm-memory">Charm Memory Story</p>
+                </div>
+            </div>
+            
+            <!-- Floating navigation arrows for desktop hover -->
+            <button class="slideshow-arrow prev" id="slideshow-arrow-prev" aria-label="Sebelumnya">&#10094;</button>
+            <button class="slideshow-arrow next" id="slideshow-arrow-next" aria-label="Berikutnya">&#10095;</button>
+        </div>
+    </div>
+
+    <!-- Custom Memory Modal Overlay -->
+    <div class="custom-modal-overlay" id="memory-modal-overlay">
+        <div class="custom-modal">
+            <h3>Name This Memory</h3>
+            <p>Attach a special moment or story to this charm link.</p>
+            <input type="text" class="custom-modal-input" id="memory-input" placeholder="e.g. ❤️ First Date"
+                maxlength="30">
+            <div class="custom-modal-actions">
+                <button class="btn btn-secondary" id="cancel-memory-btn">Cancel</button>
+                <button class="btn btn-primary" id="save-memory-btn">Save Memory</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Photo Crop Modal Overlay -->
+    <div class="custom-modal-overlay" id="crop-modal-overlay">
+        <div class="custom-modal crop-modal">
+            <h3>Sesuaikan Foto Charm</h3>
+            <p>Geser dan sesuaikan skala foto Anda agar pas di link gelang.</p>
+            <div class="crop-container">
+                <div class="crop-preview-box" id="crop-preview-box">
+                    <img id="crop-preview-image" src="" alt="Crop Preview">
+                    <div class="crop-viewport"></div>
+                </div>
+            </div>
+            
+            <div class="crop-controls">
+                <div class="control-row">
+                    <label for="crop-zoom">Zoom:</label>
+                    <input type="range" id="crop-zoom" min="1" max="3" step="0.05" value="1">
+                </div>
+                <div class="control-row">
+                    <label for="crop-rotate">Putar:</label>
+                    <input type="range" id="crop-rotate" min="0" max="360" step="5" value="0">
+                </div>
+            </div>
+            
+            <div class="custom-modal-actions">
+                <button class="btn btn-secondary" id="cancel-crop-btn">Batal</button>
+                <button class="btn btn-primary" id="save-crop-btn">Pasang Charm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Size Modal Overlay -->
+    <div class="custom-modal-overlay" id="custom-size-modal-overlay">
+        <div class="custom-modal">
+            <h3>Custom Wrist Size</h3>
+            <p>Enter your wrist size in centimeters (10 - 25 cm).</p>
+            <input type="number" class="custom-modal-input" id="custom-size-input" placeholder="e.g. 15" min="10" max="25" step="1">
+            <div id="custom-size-error" style="color: #ff4d4d; font-size: 0.85rem; margin-top: -16px; margin-bottom: 16px; display: none;">Please enter a valid size between 10 and 25 cm.</div>
+            <div class="custom-modal-actions">
+                <button class="btn btn-secondary" id="cancel-custom-size-btn">Cancel</button>
+                <button class="btn btn-primary" id="save-custom-size-btn">Save Size</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Sharing Card for Export -->
+    <div id="sharing-card"
+        style="position: absolute; left: -9999px; top: -9999px; width: 800px; padding: 40px; background: radial-gradient(circle at top, #fafafa 0%, #eaeaea 100%); display: flex; flex-direction: column; align-items: center; border-radius: 16px; border: 1px solid #ddd; font-family: 'Outfit', sans-serif; box-sizing: border-box;">
+        <div
+            style="width: 100%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ccc; padding-bottom: 20px; margin-bottom: 30px;">
+            <div style="text-align: left;">
+                <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin: 0; color: #1a1a1a;">Senada
+                </h1>
+                <p style="margin: 4px 0 0 0; color: #666; font-style: italic; font-size: 1rem;">Every Charm Tells A
+                    Story</p>
+            </div>
+            <div style="text-align: right;">
+                <p style="margin: 0; color: #1a1a1a; font-weight: 600; font-size: 1.1rem;" id="export-size">Size: M (16
+                    cm)</p>
+                <p style="margin: 4px 0 0 0; color: #888; font-size: 0.9rem;" id="export-count">5/18 Charms Used</p>
+            </div>
+        </div>
+
+        <!-- Large circular rendering of the bracelet -->
+        <div id="export-bracelet-preview"
+            style="width: 320px; height: 320px; border-radius: 50%; border: 10px solid #d4d4d4; position: relative; box-shadow: 0 15px 30px rgba(0,0,0,0.1), inset 0 10px 20px rgba(0,0,0,0.05); background: #fff; margin-bottom: 40px; display: flex; align-items: center; justify-content: center;">
+            <!-- Circular preview links will be rendered here dynamically on export -->
+        </div>
+
+        <!-- List of stories/memories -->
+        <div
+            style="width: 100%; background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); box-sizing: border-box; text-align: left;">
+            <h3
+                style="font-family: 'Playfair Display', serif; font-size: 1.3rem; margin: 0 0 16px 0; color: #1a1a1a; text-align: center; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                My Memories</h3>
+            <div id="export-stories-list" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                <!-- Placed charms with stories will go here -->
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center; width: 100%;">
+            <p style="margin: 0; color: #222; font-weight: 600; font-size: 1.4rem;" id="export-price">Rp149.000</p>
+            <p style="margin: 4px 0 0 0; color: #888; font-size: 0.85rem;">Designed at senada.site</p>
+        </div>
+    </div>
+
+    <!-- Full-screen Celebration Effect Canvas/Overlay -->
+    <div id="celebration-overlay" style="display: none; position: fixed; inset: 0; z-index: 9999; pointer-events: none; overflow: hidden; background: transparent; width: 100vw; height: 100vh;"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>

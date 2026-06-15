@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senada | Every Charm Tells A Story</title>
+    <meta name="description"
+        content="Design a personalized Italian charm bracelet filled with memories, milestones, and moments that matter.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/builder.css">
+    <link rel="stylesheet" href="css/order.css">
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">Senada</a>
+        </div>
+        <div class="nav-center">
+            <a href="#hero">Home</a>
+            <a href="#why-senada">Why Senada</a>
+            <a href="#gallery">Inspiration</a>
+        </div>
+        <div class="nav-right">
+            <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme">
+                <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                </svg>
+                <svg id="sun-icon" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="4" />
+                    <path d="M12 2v2" />
+                    <path d="M12 20v2" />
+                    <path d="m4.93 4.93 1.41 1.41" />
+                    <path d="m17.66 17.66 1.41 1.41" />
+                    <path d="M2 12h2" />
+                    <path d="M20 12h2" />
+                    <path d="m6.34 17.66-1.41 1.41" />
+                    <path d="m19.07 4.93-1.41 1.41" />
+                </svg>
+            </button>
+            <button class="icon-btn" id="cart-btn" aria-label="Cart" onclick="window.location.href='builder.html?action=review'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                    <path d="M3 6h18" />
+                    <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+            </button>
+            <button class="btn btn-primary" onclick="window.location.href='builder.html'">Start Designing</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="hero" class="hero">
+        <div class="hero-content">
+            <h1>Create A Bracelet That <span class="text-accent">Tells Your Story</span></h1>
+            <p>Design a personalized Italian charm bracelet filled with memories, milestones, and moments that matter.
+            </p>
+            <div class="hero-buttons">
+                <a href="builder.html" class="btn btn-primary btn-large">Start Designing</a>
+                <a href="#why-senada" class="btn btn-secondary btn-large">Why Senada?</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Why Senada Section -->
+    <section id="why-senada" class="landing-section why-senada-section">
+        <div class="section-header">
+            <h2>Why Choose Senada?</h2>
+            <p>Every link represents a chapter of your unique journey. Crafted to last a lifetime.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3>Personalized Emojis</h3>
+                <p>Curate your memory bracelet with meaningful icons, symbols, and custom milestones that define you.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <h3>Modular Steel Links</h3>
+                <p>Real modular links that snap together easily, allowing you to reorder, add, or swap charms anytime.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💧</div>
+                <h3>Waterproof & Durable</h3>
+                <p>Made from high-quality brushed stainless steel designed for daily wear. Corrosion-free and built for life.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inspiration Gallery Section -->
+    <section id="gallery" class="landing-section gallery-section">
+        <div class="section-header">
+            <h2>Inspiration Gallery</h2>
+            <p>See how others style their custom charm bracelets and capture their special moments.</p>
+        </div>
+        
+        <div class="carousel-container">
+            <button class="carousel-btn prev" id="carousel-prev" aria-label="Previous Slide">
+                &#10094;
+            </button>
+            <div class="carousel-track-wrapper">
+                <div class="carousel-track" id="carousel-track">
+                    <!-- Slide 1 -->
+                    <div class="carousel-slide">
+                        <img src="https://images.unsplash.com/photo-1576243345690-4e4b79b63288?w=600&q=80" alt="Casual Chic Look">
+                        <div class="slide-caption">
+                            <h4>Casual Chic</h4>
+                            <p>Everyday elegance with a minimal charm setup and neutral tones.</p>
+                        </div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="carousel-slide">
+                        <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80" alt="Rose Gold Romance">
+                        <div class="slide-caption">
+                            <h4>Rose Gold Romance</h4>
+                            <p>A sweet setup matching rings and accessories for anniversaries.</p>
+                        </div>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="carousel-slide">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&q=80" alt="Wanderlust Adventure">
+                        <div class="slide-caption">
+                            <h4>Wanderlust Traveler</h4>
+                            <p>Preserving travel memories and landmark milestones on your wrist.</p>
+                        </div>
+                    </div>
+                    <!-- Slide 4 -->
+                    <div class="carousel-slide">
+                        <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600&q=80" alt="Classic Steel Style">
+                        <div class="slide-caption">
+                            <h4>Classic Steel Vibe</h4>
+                            <p>Brushed steel links styled casually with denim and street wear.</p>
+                        </div>
+                    </div>
+                    <!-- Slide 5 -->
+                    <div class="carousel-slide">
+                        <img src="https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=600&q=80" alt="Stacked Vibe">
+                        <div class="slide-caption">
+                            <h4>Stacked Style</h4>
+                            <p>Paired beautifully alongside watches and custom bangles for a bold look.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-btn next" id="carousel-next" aria-label="Next Slide">
+                &#10095;
+            </button>
+            <div class="carousel-dots" id="carousel-dots"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <span class="logo">Senada</span>
+            <p>Every charm tells a story. Start building your memories today.</p>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="#why-senada">Why Senada</a>
+                <a href="#gallery">Inspiration</a>
+                <a href="builder.html">Start Designing</a>
+            </div>
+            <p class="copyright">&copy; 2026 Senada Jewelry. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>

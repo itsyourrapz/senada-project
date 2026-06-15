@@ -1,0 +1,71 @@
+:root {
+    /* Colors - Light Theme (Sweet Rose Gold & Strawberry Cream) */
+    --bg-primary: #FFF9F9;
+    --bg-secondary: #FFEBEF;
+    --surface: rgba(255, 255, 255, 0.9);
+    --surface-hover: rgba(255, 255, 255, 1);
+    --text-primary: #2C1820; /* Deep berry espresso */
+    --text-secondary: #7A5C66; /* Warm mauve gray */
+    --border-color: rgba(122, 92, 102, 0.12);
+    --accent-color: #FF6F91; /* Vibrant strawberry rose */
+    --accent-hover: #FF8DA1;
+    --shadow-sm: 0 4px 6px rgba(122, 92, 102, 0.04);
+    --shadow-md: 0 10px 25px rgba(122, 92, 102, 0.08);
+    --shadow-lg: 0 20px 40px rgba(122, 92, 102, 0.12);
+    
+    /* Typography */
+    --font-primary: 'Outfit', sans-serif;
+    --font-heading: 'Playfair Display', serif;
+    
+    /* Layout */
+    --navbar-height: 80px;
+    --max-width: 1400px;
+    --drawer-width: 400px;
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-full: 999px;
+    
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Brand Colors */
+    --color-whatsapp: #25D366;
+    --color-whatsapp-hover: #20BA5A;
+    --color-shopee: #EE4D2D;
+    --color-shopee-hover: #D83E1E;
+
+    /* Metallic gradients (Rose Gold Steel) */
+    --steel-gradient-light: linear-gradient(to right, #ffffff 0%, #fce3e8 20%, #ffffff 40%, #dec1c7 65%, #f2d7dc 85%, #fff0f3 100%);
+    --steel-gradient-dark: linear-gradient(to right, #3c242b 0%, #1e0e12 20%, #3c242b 40%, #140508 65%, #2d181e 85%, #372027 100%);
+    --steel-glow-light: rgba(255, 111, 145, 0.3);
+    --steel-glow-dark: rgba(255, 158, 175, 0.6);
+}
+
+[data-theme="dark"] {
+    /* Colors - Dark Theme (Deep Raspberry & Dark Rose Gold) */
+    --bg-primary: #1A0E12;
+    --bg-secondary: #2C1820;
+    --surface: rgba(44, 24, 32, 0.85);
+    --surface-hover: rgba(56, 31, 41, 1);
+    --text-primary: #FFF0F3;
+    --text-secondary: #BCA4AC;
+    --border-color: rgba(255, 240, 243, 0.1);
+    --accent-color: #FF9EAF;
+    --accent-hover: #FFB3C1;
+    --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.5);
+
+    /* Brand Colors */
+    --color-whatsapp: #25D366;
+    --color-whatsapp-hover: #20BA5A;
+    --color-shopee: #EE4D2D;
+    --color-shopee-hover: #D83E1E;
+
+    /* Metallic gradients */
+    --steel-gradient-light: linear-gradient(to right, #3c242b 0%, #1e0e12 20%, #3c242b 40%, #140508 65%, #2d181e 85%, #372027 100%);
+    --steel-gradient-dark: linear-gradient(to right, #3c242b 0%, #1e0e12 20%, #3c242b 40%, #140508 65%, #2d181e 85%, #372027 100%);
+    --steel-glow-light: rgba(255, 158, 175, 0.4);
+    --steel-glow-dark: rgba(255, 158, 175, 0.7);
+}
