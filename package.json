@@ -1,0 +1,13 @@
+{
+  "name": "senada",
+  "version": "1.0.0",
+  "description": "Custom Bracelet Builder | Senada",
+  "main": "js/app.js",
+  "type": "module",
+  "scripts": {
+    "seed": "node seed.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.43.4"
+  }
+}

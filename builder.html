@@ -114,8 +114,8 @@
                 <p class="charm-count"><span id="used-charms">0</span> / <span id="total-slots">18</span> Charms Used
                 </p>
                 <div style="display: flex; gap: 10px;">
-                    <button class="btn btn-outline" id="shuffle-charms-btn" title="Acak Charm Ajaib">✨ Surprise Me</button>
-                    <button class="btn btn-outline" id="reset-charms-btn" title="Reset Gelang">🗑️ Reset Gelang</button>
+                    <button class="btn btn-outline" id="shuffle-charms-btn" title="Acak Charm Ajaib">Randomize</button>
+                    <button class="btn btn-outline" id="reset-charms-btn" title="Reset Gelang">Reset Gelang</button>
                     <button class="btn btn-outline" id="open-drawer-btn">Browse Charms</button>
                 </div>
             </div>
@@ -242,50 +242,139 @@
     <div class="modal-overlay" id="order-modal-overlay">
         <div class="order-modal">
             <div class="modal-header">
-                <h2>Review Your Order</h2>
+                <h2 id="modal-title">Review Your Order</h2>
                 <button class="close-btn" id="close-modal-btn">&times;</button>
             </div>
-            <div class="modal-body">
-                <div class="modal-preview" id="modal-preview" style="perspective: 1000px;">
-                    <div class="bracelet-3d-wrapper" style="transform: rotateX(-15deg) scale3d(0.6, 0.6, 0.6);">
-                        <div class="bracelet-3d" id="modal-bracelet-3d"></div>
+
+            <!-- Step 1: Review Order -->
+            <div class="modal-step" id="step-review">
+                <div class="modal-body">
+                    <div class="modal-preview" id="modal-preview" style="perspective: 1000px;">
+                        <div class="bracelet-3d-wrapper" style="transform: rotateX(-15deg) scale3d(0.6, 0.6, 0.6);">
+                            <div class="bracelet-3d" id="modal-bracelet-3d"></div>
+                        </div>
+                    </div>
+                    <div class="modal-details">
+                        <div class="modal-row"><strong>Size:</strong> <span id="modal-size"></span></div>
+                        <div class="modal-row"><strong>Charms (<span id="modal-charm-count"></span>):</strong></div>
+                        <ul class="modal-charm-list" id="modal-charm-list"></ul>
+
+                        <div class="modal-total">
+                            <span>Estimated Price</span>
+                            <span id="modal-total-price"></span>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-details">
-                    <div class="modal-row"><strong>Size:</strong> <span id="modal-size"></span></div>
-                    <div class="modal-row"><strong>Charms (<span id="modal-charm-count"></span>):</strong></div>
-                    <ul class="modal-charm-list" id="modal-charm-list"></ul>
-
-                    <div class="modal-total">
-                        <span>Estimated Price</span>
-                        <span id="modal-total-price"></span>
+                <div class="modal-footer">
+                    <button class="btn btn-outline btn-full" id="modal-download-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            style="margin-right: 8px;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" x2="12" y1="15" y2="3" />
+                        </svg>
+                        Download Design
+                    </button>
+                    <div class="order-actions">
+                        <button class="btn btn-full btn-primary" id="modal-order-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                style="margin-right: 8px;">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
+                                <line x1="16" y1="13" x2="8" y2="13" />
+                                <line x1="16" y1="17" x2="8" y2="17" />
+                                <polyline points="10 9 9 9 8 9" />
+                            </svg>
+                            Lanjut ke Pembayaran
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline btn-full" id="modal-download-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        style="margin-right: 8px;">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="7 10 12 15 17 10" />
-                        <line x1="12" x2="12" y1="15" y2="3" />
-                    </svg>
-                    Download Design
-                </button>
-                <div class="order-actions">
-                    <button class="btn btn-full btn-primary" id="modal-order-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            style="margin-right: 8px;">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                            <polyline points="14 2 14 8 20 8" />
-                            <line x1="16" y1="13" x2="8" y2="13" />
-                            <line x1="16" y1="17" x2="8" y2="17" />
-                            <polyline points="10 9 9 9 8 9" />
-                        </svg>
-                        Pesan Gelang
-                    </button>
+
+            <!-- Step 2: Checkout Form & QRIS -->
+            <div class="modal-step" id="step-checkout" style="display: none;">
+                <div class="modal-body">
+                    <form id="checkout-form" class="checkout-form">
+                        <div class="form-group">
+                            <label for="checkout-name">Nama Lengkap *</label>
+                            <input type="text" id="checkout-name" required placeholder="Contoh: Budi Santoso">
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-email">Email *</label>
+                            <input type="email" id="checkout-email" required placeholder="Contoh: budi@gmail.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-phone">Nomor WhatsApp *</label>
+                            <input type="tel" id="checkout-phone" required placeholder="Contoh: 081234567890">
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-address">Alamat Pengiriman Lengkap *</label>
+                            <textarea id="checkout-address" required placeholder="Nama jalan, nomor rumah, RT/RW, kecamatan, kota, kode pos"></textarea>
+                        </div>
+                        
+                        <div class="payment-section">
+                            <h3>Metode Pembayaran: QRIS Statis</h3>
+                            <p class="payment-instructions">Silakan scan QRIS di bawah ini untuk membayar sebesar <strong id="checkout-total-price">Rp0</strong>, lalu unggah screenshot bukti pembayaran.</p>
+                            
+                            <div class="qris-container">
+                                <img src="assets/qris_placeholder.png" alt="QRIS Merchant" class="qris-image" id="qris-image">
+                                <span class="qris-label">SENADA JEWELRY</span>
+                            </div>
+
+                            <div class="form-group file-upload-group" style="margin-top: 16px;">
+                                <label for="checkout-receipt" class="file-upload-label" id="receipt-upload-label">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                                    <span id="file-upload-text">Unggah Bukti Pembayaran (PNG/JPG) *</span>
+                                    <input type="file" id="checkout-receipt" accept="image/png, image/jpeg" style="display:none;" required>
+                                </label>
+                                <div id="receipt-preview-container" class="receipt-preview-container" style="display: none; position: relative; margin-top: 10px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color); max-height: 200px;">
+                                    <img id="receipt-preview" src="" alt="Bukti Transfer Preview" style="width: 100%; height: auto; display: block; object-fit: contain; max-height: 198px;">
+                                    <button type="button" id="remove-receipt-btn" class="remove-btn" style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; line-height: 1;">&times;</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="order-actions">
+                        <button class="btn btn-outline" id="checkout-back-btn">Kembali</button>
+                        <button class="btn btn-primary" id="checkout-submit-btn">Konfirmasi & Kirim</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Success Screen -->
+            <div class="modal-step" id="step-success" style="display: none;">
+                <div class="modal-body success-body" style="text-align: center; padding: 30px 20px;">
+                    <div class="success-icon-wrapper" style="width: 80px; height: 80px; background: rgba(37, 211, 102, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: #25D366; font-size: 3rem;">
+                        ✓
+                    </div>
+                    <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 10px; color: var(--text-primary);">Pesanan Terkirim!</h2>
+                    <p class="success-description" style="color: var(--text-secondary); line-height: 1.5; margin-bottom: 24px;">Terima kasih atas pesanan Anda. Kami sedang memproses dan memverifikasi pembayaran Anda.</p>
+                    
+                    <div class="order-info-card" style="background: var(--bg-secondary); border-radius: var(--radius-md); padding: 16px; margin-bottom: 24px; text-align: left; border: 1px solid var(--border-color);">
+                        <div class="info-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="color: var(--text-secondary);">ID Pesanan:</span>
+                            <strong id="success-order-id" style="color: var(--text-primary); font-family: monospace; font-size: 1rem;">SENADA-XXXXXXXX</strong>
+                        </div>
+                        <div class="info-row" style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-secondary);">Total Pembayaran:</span>
+                            <strong id="success-total-price" style="color: var(--accent-color); font-size: 1.1rem;">Rp0</strong>
+                        </div>
+                    </div>
+
+                    <p class="whatsapp-prompt" style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.4;">Ingin verifikasi instan? Hubungi admin via WhatsApp untuk konfirmasi pesanan Anda.</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="order-actions-vertical" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+                        <a href="#" target="_blank" class="btn btn-primary whatsapp-btn btn-full" id="success-whatsapp-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: center; width: 100%; gap: 8px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                            Hubungi Admin via WhatsApp
+                        </a>
+                        <button class="btn btn-outline btn-full" id="success-close-btn">Kembali ke Builder</button>
+                    </div>
                 </div>
             </div>
         </div>

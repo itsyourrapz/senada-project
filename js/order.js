@@ -14,14 +14,71 @@ export function initOrder() {
     const modalCharmCount = document.getElementById('modal-charm-count');
     const modalCharmList = document.getElementById('modal-charm-list');
     const modalTotalPrice = document.getElementById('modal-total-price');
+    const modalTitle = document.getElementById('modal-title');
+
+    // Modal Steps
+    const stepReview = document.getElementById('step-review');
+    const stepCheckout = document.getElementById('step-checkout');
+    const stepSuccess = document.getElementById('step-success');
 
     // Modal Action Buttons
     const modalOrderBtn = document.getElementById('modal-order-btn');
+    const checkoutBackBtn = document.getElementById('checkout-back-btn');
+    const checkoutSubmitBtn = document.getElementById('checkout-submit-btn');
+    const successCloseBtn = document.getElementById('success-close-btn');
+    const successWhatsappBtn = document.getElementById('success-whatsapp-btn');
+
+    // Checkout Form Elements
+    const checkoutForm = document.getElementById('checkout-form');
+    const checkoutReceipt = document.getElementById('checkout-receipt');
+    const receiptPreviewContainer = document.getElementById('receipt-preview-container');
+    const receiptPreview = document.getElementById('receipt-preview');
+    const removeReceiptBtn = document.getElementById('remove-receipt-btn');
+    const fileUploadText = document.getElementById('file-upload-text');
+    const checkoutTotalPrice = document.getElementById('checkout-total-price');
 
     // Direct Action Buttons from Summary Card
     const directOrderBtn = document.getElementById('direct-order-btn');
 
+    let uploadedReceiptBase64 = null;
+
+    function showStepReview() {
+        if (stepReview) stepReview.style.display = 'flex';
+        if (stepCheckout) stepCheckout.style.display = 'none';
+        if (stepSuccess) stepSuccess.style.display = 'none';
+        if (modalTitle) modalTitle.textContent = "Review Your Order";
+    }
+
+    function showStepCheckout() {
+        if (stepReview) stepReview.style.display = 'none';
+        if (stepCheckout) stepCheckout.style.display = 'flex';
+        if (stepSuccess) stepSuccess.style.display = 'none';
+        if (modalTitle) modalTitle.textContent = "Detail Pembayaran & Pengiriman";
+        if (checkoutTotalPrice) checkoutTotalPrice.textContent = formatIDR(braceletState.totalPrice);
+    }
+
+    function showStepSuccess(orderId, totalFormatted) {
+        if (stepReview) stepReview.style.display = 'none';
+        if (stepCheckout) stepCheckout.style.display = 'none';
+        if (stepSuccess) stepSuccess.style.display = 'flex';
+        if (modalTitle) modalTitle.textContent = "Pesanan Berhasil";
+        
+        const successOrderIdEl = document.getElementById('success-order-id');
+        const successTotalPriceEl = document.getElementById('success-total-price');
+        
+        if (successOrderIdEl) successOrderIdEl.textContent = orderId;
+        if (successTotalPriceEl) successTotalPriceEl.textContent = totalFormatted;
+        
+        // Admin WhatsApp setup
+        const adminWhatsapp = "62895610817354"; // Ganti dengan nomor WhatsApp toko Senada Anda
+        const text = `Halo Admin Senada, saya ingin konfirmasi pembayaran untuk pesanan gelang custom saya.\n\n*ID Pesanan*: ${orderId}\n*Total Pembayaran*: ${totalFormatted}\n\nMohon bantuannya untuk memverifikasi. Terima kasih!`;
+        if (successWhatsappBtn) {
+            successWhatsappBtn.href = `https://api.whatsapp.com/send?phone=${adminWhatsapp}&text=${encodeURIComponent(text)}`;
+        }
+    }
+
     function openModal() {
+        showStepReview();
         populateModal();
         orderModalOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -30,6 +87,13 @@ export function initOrder() {
     function closeModal() {
         orderModalOverlay.classList.remove('active');
         document.body.style.overflow = '';
+        
+        // Reset checkout form and uploaded file data when modal is closed
+        if (checkoutForm) checkoutForm.reset();
+        uploadedReceiptBase64 = null;
+        if (receiptPreview) receiptPreview.src = '';
+        if (receiptPreviewContainer) receiptPreviewContainer.style.display = 'none';
+        if (fileUploadText) fileUploadText.textContent = "Unggah Bukti Pembayaran (PNG/JPG) *";
     }
 
     if (reviewOrderBtn) {
@@ -182,42 +246,162 @@ export function initOrder() {
         document.addEventListener('touchend', endDrag);
     }
 
-    // Shared Google Form Order Logic
-    function triggerGoogleFormOrder() {
-        let charmListText = '';
-        if (braceletState.placedCharms.length > 0) {
-            // Group and summarize placed charms and slot indices
-            braceletState.placedCharms.forEach(pc => {
-                charmListText += `* Slot ${pc.slotIndex + 1}: ${pc.charm.name}${pc.memoryName ? ` ("${pc.memoryName}")` : ''}\n`;
-            });
-        } else {
-            charmListText = "Hanya Base Polos (Tanpa Charm)\n";
-        }
+    // Handle manual payment receipt upload and client-side compression
+    if (checkoutReceipt) {
+        checkoutReceipt.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
 
-        const details = `Pemesanan Custom Bracelet Senada:
-Ukuran Pergelangan: ${braceletState.sizeLabel}
-Total Charm: ${braceletState.placedCharms.length}
-Estimasi Harga: ${formatIDR(braceletState.totalPrice)}
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                alert('Silakan pilih file gambar (PNG atau JPG).');
+                checkoutReceipt.value = '';
+                return;
+            }
 
-Susunan Charm & Cerita Memori:
-${charmListText}`;
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    // Create a canvas for compression
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    let width = img.width;
+                    let height = img.height;
+                    const maxDim = 800;
 
-        // Placeholder Google Form URL (Pre-filled query parameters)
-        // Feel free to replace the Form ID and Entry ID when deploying
-        const FORM_ID = '1FAIpQLSfZF6k0fDmdJ1z_X0k3X9X_vK92z9z9z9z9z9z9z9z9z9z9za'; // Placeholder Form ID
-        const ENTRY_ID = 'entry.1000001'; // Placeholder Entry ID for Order Details
-        const formUrl = `https://docs.google.com/forms/d/e/${FORM_ID}/viewform?usp=pp_url&${ENTRY_ID}=${encodeURIComponent(details)}`;
-        
-        window.open(formUrl, '_blank');
+                    // Resize logic maintaining ratio
+                    if (width > maxDim || height > maxDim) {
+                        if (width > height) {
+                            height = Math.round((height * maxDim) / width);
+                            width = maxDim;
+                        } else {
+                            width = Math.round((width * maxDim) / height);
+                            height = maxDim;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Compress to JPEG format with 0.75 quality factor
+                    uploadedReceiptBase64 = canvas.toDataURL('image/jpeg', 0.75);
+
+                    // Show preview container
+                    if (receiptPreview) receiptPreview.src = uploadedReceiptBase64;
+                    if (receiptPreviewContainer) receiptPreviewContainer.style.display = 'block';
+                    if (fileUploadText) fileUploadText.textContent = `File terpilih: ${file.name}`;
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
     }
 
-    // Bind Modal Button
+    if (removeReceiptBtn) {
+        removeReceiptBtn.addEventListener('click', () => {
+            if (checkoutReceipt) checkoutReceipt.value = '';
+            uploadedReceiptBase64 = null;
+            if (receiptPreview) receiptPreview.src = '';
+            if (receiptPreviewContainer) receiptPreviewContainer.style.display = 'none';
+            if (fileUploadText) fileUploadText.textContent = "Unggah Bukti Pembayaran (PNG/JPG) *";
+        });
+    }
+
+    // Modal navigation listeners
     if (modalOrderBtn) {
-        modalOrderBtn.addEventListener('click', triggerGoogleFormOrder);
+        modalOrderBtn.addEventListener('click', showStepCheckout);
     }
 
-    // Bind Direct Summary Card Button
     if (directOrderBtn) {
-        directOrderBtn.addEventListener('click', triggerGoogleFormOrder);
+        directOrderBtn.addEventListener('click', () => {
+            openModal();
+            showStepCheckout();
+        });
+    }
+
+    if (checkoutBackBtn) {
+        checkoutBackBtn.addEventListener('click', showStepReview);
+    }
+
+    if (successCloseBtn) {
+        successCloseBtn.addEventListener('click', closeModal);
+    }
+
+    // Submit Checkout form to Supabase via Vercel API
+    if (checkoutSubmitBtn) {
+        checkoutSubmitBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            
+            // Check HTML5 validation
+            if (!checkoutForm.checkValidity()) {
+                checkoutForm.reportValidity();
+                return;
+            }
+
+            if (!uploadedReceiptBase64) {
+                alert('Silakan unggah screenshot bukti pembayaran terlebih dahulu.');
+                return;
+            }
+
+            // Extract values
+            const name = document.getElementById('checkout-name').value.trim();
+            const email = document.getElementById('checkout-email').value.trim();
+            const phone = document.getElementById('checkout-phone').value.trim();
+            const address = document.getElementById('checkout-address').value.trim();
+
+            const charmsPayload = braceletState.placedCharms.map(pc => ({
+                id: pc.charm.id,
+                name: pc.charm.name,
+                price: pc.charm.price,
+                slotIndex: pc.slotIndex,
+                memoryName: pc.memoryName || ""
+            }));
+
+            const payload = {
+                customer: { name, email, phone, address },
+                size: braceletState.sizeLabel,
+                charms: charmsPayload,
+                receiptImage: uploadedReceiptBase64
+            };
+
+            // Enable loading state
+            checkoutSubmitBtn.classList.add('btn-loading');
+            checkoutSubmitBtn.disabled = true;
+            if (checkoutBackBtn) checkoutBackBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/place-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Gagal mengirim pesanan. Silakan coba lagi.');
+                }
+
+                // Show success screen
+                showStepSuccess(result.orderId, formatIDR(braceletState.totalPrice));
+                
+                // Fire custom event to reset the bracelet in builder.js
+                document.dispatchEvent(new CustomEvent('reset-bracelet'));
+
+            } catch (err) {
+                console.error('Checkout error:', err);
+                alert(err.message || 'Terjadi kesalahan saat memproses pesanan Anda. Silakan coba lagi.');
+            } finally {
+                // Restore submit buttons
+                checkoutSubmitBtn.classList.remove('btn-loading');
+                checkoutSubmitBtn.disabled = false;
+                if (checkoutBackBtn) checkoutBackBtn.disabled = false;
+            }
+        });
     }
 }

@@ -800,6 +800,16 @@ p {
     transition: transform var(--transition-fast);
 }
 
+.feature-number {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 2.8rem;
+    color: var(--accent-color);
+    line-height: 1;
+    padding-top: 8px; /* Counteract font ascender */
+    padding-right: 6px; /* Counteract italic slant */
+}
+
 .feature-card:hover .feature-icon {
     transform: scale(1.1);
 }

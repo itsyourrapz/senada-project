@@ -54,6 +54,13 @@
     margin: 0;
 }
 
+.modal-step {
+    display: none;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+}
+
 .modal-body {
     padding: 24px;
     overflow-y: auto;
@@ -165,4 +172,164 @@
     .order-actions {
         flex-direction: column;
     }
+}
+
+/* Checkout Form Styles */
+.checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.checkout-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.checkout-form .form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.checkout-form .form-group input,
+.checkout-form .form-group textarea {
+    padding: 12px 14px;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.checkout-form .form-group input:focus,
+.checkout-form .form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(255, 111, 145, 0.15);
+}
+
+.checkout-form .form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+/* Payment Section & QRIS */
+.payment-section {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.payment-section h3 {
+    font-size: 1.1rem;
+    margin-top: 0;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+}
+
+.payment-instructions {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.qris-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: 1px solid rgba(122, 92, 102, 0.15);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    margin: 16px auto;
+    box-shadow: var(--shadow-sm);
+    width: fit-content;
+}
+
+.qris-image {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.qris-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #1a1a1a;
+}
+
+/* Custom File Upload */
+.file-upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    background: var(--bg-secondary);
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+    text-align: center;
+}
+
+.file-upload-label:hover {
+    border-color: var(--accent-color);
+    background: var(--surface);
+}
+
+.file-upload-label svg {
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    transition: color var(--transition-fast);
+}
+
+.file-upload-label:hover svg {
+    color: var(--accent-color);
+}
+
+.file-upload-label span {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Spinner / Loading State */
+.btn-loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+}
+
+.btn-loading::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-top: -10px;
+    margin-left: -10px;
+    border: 2.5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spinner 0.6s linear infinite;
+}
+
+.btn-outline.btn-loading::after {
+    border: 2.5px solid rgba(255, 111, 145, 0.2);
+    border-top-color: var(--accent-color);
+}
+
+@keyframes spinner {
+    to { transform: rotate(360deg); }
 }

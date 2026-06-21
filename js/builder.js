@@ -541,6 +541,14 @@ export function initBuilder() {
         updateMetrics();
     }
 
+    // Custom event listener to reset the bracelet state (e.g. after order checkout)
+    document.addEventListener('reset-bracelet', () => {
+        placedCharms = [];
+        saveState();
+        generateSlots(currentSlots);
+        triggerBounce();
+    });
+
     // Flying animation and Quick Add click listener
     document.addEventListener('add-charm', (e) => {
         const charm = e.detail.charm;
