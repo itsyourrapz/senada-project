@@ -27,11 +27,17 @@ export function initExport() {
                 previewContainer.innerHTML = '';
                 
                 const count = braceletState.slots;
-                const radius = 80 + (count * 3); // Radius maps size slots
-                const containerSize = (radius + 20) * 2;
+                const linkWidth = 28; // width of the charm link in CSS
+                const radius = (linkWidth / 2) / Math.tan(Math.PI / count); // Apothem of regular polygon
+                
+                // Add some padding for the shadow and height (32px / 2 = 16)
+                const containerSize = (radius + 25) * 2;
                 
                 previewContainer.style.width = `${containerSize}px`;
                 previewContainer.style.height = `${containerSize}px`;
+                previewContainer.style.border = 'none';
+                previewContainer.style.background = 'transparent';
+                previewContainer.style.boxShadow = 'none';
                 
                 const centerX = containerSize / 2;
                 const centerY = containerSize / 2;
