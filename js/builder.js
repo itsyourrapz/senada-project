@@ -5,8 +5,8 @@ export let braceletState = {
     slots: 18,
     sizeLabel: 'M (16 cm)',
     placedCharms: [],
-    basePrice: 149000,
-    totalPrice: 149000
+    basePrice: 18000,
+    totalPrice: 18000
 };
 
 export function initBuilder() {
@@ -48,13 +48,13 @@ export function initBuilder() {
     const saveCustomSizeBtn = document.getElementById('save-custom-size-btn');
     const customSizeError = document.getElementById('custom-size-error');
 
-    const BASE_PRICE = 149000;
+    const BASE_PRICE = 18000;
     
     let currentSlots = 18;
     let placedCharms = []; // Array of { slotIndex, charm, memoryName }
     let selectedSlotIndex = null;
     let activeMemorySlotIndex = null;
-    let currentAnimatedPrice = 149000;
+    let currentAnimatedPrice = 18000;
 
     // Single tooltip instance created dynamically
     const tooltipEl = document.createElement('div');
@@ -1064,7 +1064,6 @@ export function initBuilder() {
         shuffleCharmsBtn.addEventListener('click', shuffleCharms);
     }
 
-    let resetTimeout = null;
     if (resetCharmsBtn) {
         resetCharmsBtn.addEventListener('click', () => {
             if (placedCharms.length === 0) {
@@ -1072,19 +1071,7 @@ export function initBuilder() {
                 return;
             }
             
-            if (!resetCharmsBtn.classList.contains('confirming')) {
-                resetCharmsBtn.classList.add('confirming');
-                resetCharmsBtn.innerHTML = '⚠️ Yakin Reset?';
-                
-                resetTimeout = setTimeout(() => {
-                    resetCharmsBtn.classList.remove('confirming');
-                    resetCharmsBtn.innerHTML = '🗑️ Reset Gelang';
-                }, 3000);
-            } else {
-                clearTimeout(resetTimeout);
-                resetCharmsBtn.classList.remove('confirming');
-                resetCharmsBtn.innerHTML = '🗑️ Reset Gelang';
-                
+            if (confirm('Yakin ingin mereset gelang ini?')) {
                 placedCharms = [];
                 saveState();
                 generateSlots(currentSlots);
