@@ -788,30 +788,46 @@ p {
 }
 
 .feature-icon {
-    font-size: 2.5rem;
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    background: var(--bg-secondary);
+    background: var(--text-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
-    transition: transform var(--transition-fast);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: all var(--transition-smooth);
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.feature-icon::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px solid var(--text-primary);
+    opacity: 0.2;
+    transition: all var(--transition-smooth);
 }
 
 .feature-number {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 2.8rem;
-    color: var(--accent-color);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1.6rem;
+    color: var(--bg-primary);
     line-height: 1;
-    padding-top: 8px; /* Counteract font ascender */
-    padding-right: 6px; /* Counteract italic slant */
+    font-style: normal;
 }
 
 .feature-card:hover .feature-icon {
-    transform: scale(1.1);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.feature-card:hover .feature-icon::after {
+    transform: scale(1.15);
+    opacity: 0.4;
 }
 
 .feature-card h3 {

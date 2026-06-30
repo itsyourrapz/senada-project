@@ -27,11 +27,12 @@ export function initExport() {
                 previewContainer.innerHTML = '';
                 
                 const count = braceletState.slots;
-                const linkWidth = 28; // width of the charm link in CSS
+                const linkWidth = 42; // Scaled up width for export card
+                const linkHeight = 48; // Scaled up height
                 const radius = (linkWidth / 2) / Math.tan(Math.PI / count); // Apothem of regular polygon
                 
-                // Add some padding for the shadow and height (32px / 2 = 16)
-                const containerSize = (radius + 25) * 2;
+                // Add padding for the shadow and height
+                const containerSize = (radius + (linkHeight / 2) + 20) * 2;
                 
                 previewContainer.style.width = `${containerSize}px`;
                 previewContainer.style.height = `${containerSize}px`;
@@ -44,21 +45,21 @@ export function initExport() {
                 
                 for (let i = 0; i < count; i++) {
                     const angle = (i / count) * (2 * Math.PI) - Math.PI / 2;
-                    const x = centerX + radius * Math.cos(angle) - 14;
-                    const y = centerY + radius * Math.sin(angle) - 16;
+                    const x = centerX + radius * Math.cos(angle) - (linkWidth / 2);
+                    const y = centerY + radius * Math.sin(angle) - (linkHeight / 2);
                     
                     const previewCharm = document.createElement('div');
                     previewCharm.className = 'preview-charm-link';
                     previewCharm.style.position = 'absolute';
-                    previewCharm.style.width = '28px';
-                    previewCharm.style.height = '32px';
+                    previewCharm.style.width = `${linkWidth}px`;
+                    previewCharm.style.height = `${linkHeight}px`;
                     previewCharm.style.left = `${x}px`;
                     previewCharm.style.top = `${y}px`;
                     previewCharm.style.transform = `rotate(${angle + Math.PI/2}rad)`;
                     
                     const pc = braceletState.placedCharms.find(p => p.slotIndex === i);
                     if (pc) {
-                        previewCharm.innerHTML = getCharmHTML(pc.charm.image);
+                        previewCharm.innerHTML = getCharmHTML(pc.charm.image, 'width: 100%; height: 100%; object-fit: contain; display: block; margin: auto; padding: 2px; box-sizing: border-box;');
                     }
                     
                     previewContainer.appendChild(previewCharm);
@@ -82,8 +83,8 @@ export function initExport() {
                         item.style.boxSizing = 'border-box';
                         
                         item.innerHTML = `
-                            <div style="width: 28px; height: 28px; margin-right: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
-                                ${getCharmHTML(pc.charm.image)}
+                            <div style="width: 28px; height: 28px; margin-right: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                ${getCharmHTML(pc.charm.image, 'width: 100%; height: 100%; object-fit: contain; display: block;')}
                             </div>
                             <div style="overflow: hidden; text-align: left;">
                                 <div style="font-weight: 600; font-size: 0.85rem; color: #1a1a1a; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${pc.charm.name}</div>
