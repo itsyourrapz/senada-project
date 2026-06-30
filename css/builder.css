@@ -253,26 +253,11 @@
     /* Styles inherited from magnet-slot */
 }
 
-.placed-charm:has(img)::before {
-    content: '';
-    position: absolute;
+.placed-charm .charm-bg-layer {
     top: 6px;
     left: 1px;
     right: 1px;
     bottom: 6px;
-    background: #ffffff;
-    z-index: 0;
-    border-radius: 0;
-    border: none;
-    transition: background var(--transition-fast);
-}
-
-[data-theme="dark"] .placed-charm:has(img)::before {
-    background: #1e1e1e;
-}
-
-.placed-charm:has(.charm-emoji)::before {
-    display: none;
 }
 
 .placed-charm:hover {
@@ -529,26 +514,11 @@
         0 2px 4px rgba(0,0,0,0.4);
 }
 
-.preview-charm-link:has(img)::before {
-    content: '';
-    position: absolute;
+.preview-charm-link .charm-bg-layer {
     top: 4px;
     left: 1px;
     right: 1px;
     bottom: 4px;
-    background: #ffffff;
-    z-index: 0;
-    border-radius: 0;
-    border: none;
-    transition: background var(--transition-smooth);
-}
-
-[data-theme="dark"] .preview-charm-link:has(img)::before {
-    background: #1e1e1e;
-}
-
-.preview-charm-link:has(.charm-emoji)::before {
-    display: none;
 }
 
 .preview-charm-link img,
@@ -643,27 +613,12 @@
         0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
-.slot-3d:has(img)::before {
-    content: '';
-    position: absolute;
+.slot-3d .charm-bg-layer {
     top: 6px;
     left: 1px;
     right: 1px;
     bottom: 6px;
-    background: #ffffff;
-    z-index: 0;
-    border-radius: 0;
-    border: none;
-    transition: background var(--transition-fast);
     transform: translateZ(0.5px);
-}
-
-[data-theme="dark"] .slot-3d:has(img)::before {
-    background: #1e1e1e;
-}
-
-.slot-3d:has(.charm-emoji)::before {
-    display: none;
 }
 
 .slot-3d img {
@@ -1363,4 +1318,18 @@
     .drawer-search-container {
         padding: 0 16px 12px;
     }
+}
+
+/* Base style for the charm background layer (replaces the :has(img)::before) */
+.charm-bg-layer {
+    position: absolute;
+    background: #ffffff;
+    z-index: 0;
+    border-radius: 0;
+    border: none;
+    transition: background var(--transition-fast);
+}
+
+[data-theme="dark"] .charm-bg-layer {
+    background: #1e1e1e;
 }

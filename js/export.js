@@ -83,7 +83,7 @@ export function initExport() {
                         item.style.boxSizing = 'border-box';
                         
                         item.innerHTML = `
-                            <div style="width: 28px; height: 28px; margin-right: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                            <div style="width: 28px; height: 28px; margin-right: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;">
                                 ${getCharmHTML(pc.charm.image, 'width: 100%; height: 100%; object-fit: contain; display: block;')}
                             </div>
                             <div style="overflow: hidden; text-align: left;">
@@ -96,6 +96,16 @@ export function initExport() {
                         storiesList.appendChild(item);
                     });
                 }
+
+                // Wait for all images in the sharing card to load before capturing
+                const images = sharingCard.querySelectorAll('img');
+                await Promise.all(Array.from(images).map(img => {
+                    if (img.complete && img.naturalHeight !== 0) return Promise.resolve();
+                    return new Promise(resolve => {
+                        img.onload = resolve;
+                        img.onerror = resolve;
+                    });
+                }));
 
                 // Render Card to Canvas via html2canvas
                 const canvas = await html2canvas(sharingCard, {
