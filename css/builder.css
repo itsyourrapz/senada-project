@@ -1316,6 +1316,201 @@
     }
 
     .drawer-search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border-color);
+}
+
+.crop-preview-box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: move;
+    touch-action: none;
+}
+
+#crop-preview-image {
+    position: absolute;
+    max-width: none;
+    max-height: none;
+    user-select: none;
+    pointer-events: none;
+    transform-origin: center center;
+}
+
+.crop-viewport {
+    position: absolute;
+    width: 88px; /* 44px * 2 */
+    height: 100px; /* 50px * 2 */
+    border: 2px dashed var(--accent-color);
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.65);
+    border-radius: 6px;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.crop-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+.control-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.control-row label {
+    width: 60px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.control-row input[type="range"] {
+    flex: 1;
+    accent-color: var(--accent-color);
+    background: var(--border-color);
+    height: 4px;
+    border-radius: 2px;
+    outline: none;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .drawer-open .workspace-container {
+        width: calc(100% - var(--drawer-width) - 24px);
+        margin-right: calc(var(--drawer-width) + 24px);
+    }
+}
+
+@media (max-width: 768px) {
+    .workspace-container {
+        padding: 20px;
+    }
+    
+    .workspace-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .bracelet-track {
+        padding: 16px 20px;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        gap: 0;
+        scrollbar-width: none;
+    }
+    
+    .bracelet-track::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .magnet-slot {
+        width: 32px;
+        height: 36px;
+        flex-shrink: 0;
+        box-shadow: 
+            /* Top Lip */
+            inset 0 4px 0 rgba(255, 255, 255, 0.35),
+            inset 0 5px 0 rgba(0, 0, 0, 0.15),
+            /* Bottom Lip */
+            inset 0 -4px 0 rgba(0, 0, 0, 0.08),
+            inset 0 -5px 0 rgba(255, 255, 255, 0.3),
+            /* Outer soft shadow */
+            0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .placed-charm img {
+        height: calc(100% - 8px);
+        margin: 4px 1px;
+    }
+
+    .placed-charm:has(img)::before {
+        top: 4px;
+        bottom: 4px;
+    }
+
+    .charm-emoji {
+        height: calc(100% - 8px);
+        margin: 4px 0;
+        font-size: 1.1rem;
+    }
+
+    .drawer-open .workspace-container {
+        width: 100%;
+        margin-right: 0;
+    }
+    
+    .charm-drawer {
+        width: 100%;
+        max-width: 100%;
+        height: 70vh;
+        top: auto;
+        bottom: 0;
+        transform: translateY(100%);
+        border-top-left-radius: var(--radius-lg);
+        border-top-right-radius: var(--radius-lg);
+    }
+
+    .charm-drawer.active {
+        transform: translateY(0);
+    }
+
+    /* Story Summary Card Responsive Overrides */
+    .story-summary-card {
+        padding: 20px;
+        margin-top: 30px;
+    }
+    
+    .story-summary-header h2 {
+        font-size: 1.4rem;
+    }
+    
+    .story-summary-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .story-item-charm-wrapper {
+        width: 36px;
+        height: 42px;
+    }
+    
+    .story-item-charm-wrapper .charm-emoji {
+        font-size: 1.2rem;
+    }
+
+    /* Slideshow Mobile Overrides */
+    .story-slideshow-modal {
+        width: 100%;
+        height: 100%;
+        max-height: 100%;
+        border-radius: 0;
+        border: none;
+        padding: 40px 20px;
+    }
+
+    .slideshow-arrow {
+        display: none !important;
+    }
+
+    .celebration-toast {
+        font-size: 1.2rem;
+        padding: 14px 28px;
+    }
+
+    .drawer-search-container {
         padding: 0 16px 12px;
     }
 }
@@ -1323,6 +1518,10 @@
 /* Base style for the charm background layer (replaces the :has(img)::before) */
 .charm-bg-layer {
     position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: #ffffff;
     z-index: 0;
     border-radius: 0;

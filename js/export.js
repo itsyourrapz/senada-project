@@ -59,7 +59,16 @@ export function initExport() {
                     
                     const pc = braceletState.placedCharms.find(p => p.slotIndex === i);
                     if (pc) {
-                        previewCharm.innerHTML = getCharmHTML(pc.charm.image, 'width: 100%; height: 100%; object-fit: contain; display: block; margin: auto; padding: 2px; box-sizing: border-box;');
+                        const isImg = pc.charm.image.includes('.') || pc.charm.image.includes('/') || pc.charm.image.startsWith('http') || pc.charm.image.startsWith('data:');
+                        if (isImg) {
+                            previewCharm.innerHTML = `
+                                <div style="position: absolute; top: 4px; left: 1px; right: 1px; bottom: 4px; background-color: #ffffff; z-index: 0;"></div>
+                                <div style="position: absolute; top: 4px; left: 1px; right: 1px; bottom: 4px; background-image: url('${pc.charm.image}'); background-size: contain; background-position: center; background-repeat: no-repeat; z-index: 1;"></div>
+                                <img src="${pc.charm.image}" style="width: 0; height: 0; opacity: 0; position: absolute;">
+                            `;
+                        } else {
+                            previewCharm.innerHTML = `<span style="font-size: 1.5rem; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; position: relative; z-index: 1;">${pc.charm.image}</span>`;
+                        }
                     }
                     
                     previewContainer.appendChild(previewCharm);
@@ -82,9 +91,20 @@ export function initExport() {
                         item.style.border = '1px solid #e5e5ea';
                         item.style.boxSizing = 'border-box';
                         
+                        const isImg = pc.charm.image.includes('.') || pc.charm.image.includes('/') || pc.charm.image.startsWith('http') || pc.charm.image.startsWith('data:');
+                        let charmPreview = '';
+                        if (isImg) {
+                            charmPreview = `
+                                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #ffffff; z-index: 0;"></div>
+                                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('${pc.charm.image}'); background-size: contain; background-position: center; background-repeat: no-repeat; z-index: 1;"></div>
+                            `;
+                        } else {
+                            charmPreview = `<span style="font-size: 1.2rem; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; position: relative; z-index: 1;">${pc.charm.image}</span>`;
+                        }
+
                         item.innerHTML = `
                             <div style="width: 28px; height: 28px; margin-right: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;">
-                                ${getCharmHTML(pc.charm.image, 'width: 100%; height: 100%; object-fit: contain; display: block;')}
+                                ${charmPreview}
                             </div>
                             <div style="overflow: hidden; text-align: left;">
                                 <div style="font-weight: 600; font-size: 0.85rem; color: #1a1a1a; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${pc.charm.name}</div>
